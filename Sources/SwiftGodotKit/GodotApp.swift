@@ -594,9 +594,16 @@ public class GodotApp: ObservableObject {
     private func normalizedPath(_ source: String?) -> String? {
         guard let source, !source.isEmpty else { return nil }
         if source.hasPrefix("file://"), let url = URL(string: source), url.isFileURL {
-            return url.path
+            return updateWorkingPath(url.path)
         }
-        return source
+        return updateWorkingPath(source)
+    }
+    
+    private func updateWorkingPath(_ source: String?) -> String? {
+        if let source {
+            return source + "Contents/Resources"
+        }
+        return nil
     }
 
     private func normalizedScene(_ scene: String?) -> String? {
@@ -621,7 +628,7 @@ public class GodotApp: ObservableObject {
         }
 
         if isDirectory.boolValue {
-            let projectFile = sourcePath + "project.godot"
+            let projectFile = sourcePath + "/project.godot"
             guard FileManager.default.fileExists(atPath: projectFile) else {
                 Logger.App.error("GodotApp.start failed: missing project.godot in source directory: \(sourcePath, privacy: .public)")
                 emitRuntimeEvent(
