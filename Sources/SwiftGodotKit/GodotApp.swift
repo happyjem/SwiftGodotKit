@@ -621,7 +621,7 @@ public class GodotApp: ObservableObject {
         }
 
         if isDirectory.boolValue {
-            let projectFile = sourcePath + "/project.godot"
+            let projectFile = sourcePath + "project.godot"
             guard FileManager.default.fileExists(atPath: projectFile) else {
                 Logger.App.error("GodotApp.start failed: missing project.godot in source directory: \(sourcePath, privacy: .public)")
                 emitRuntimeEvent(
