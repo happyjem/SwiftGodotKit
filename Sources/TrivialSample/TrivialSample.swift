@@ -10,6 +10,10 @@ private func sampleLog(_ message: String) {
     }
 }
 
+private func sampleGodotPackPath() -> String {
+    Bundle.main.resourcePath ?? Bundle.main.bundlePath
+}
+
 private let runtimeEventTimeFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.dateFormat = "HH:mm:ss.SSS"
@@ -193,11 +197,11 @@ struct ContentView: View {
     #if os(macOS)
     @State var app = GodotApp(
         packFile: "",
-        godotPackPath: Bundle.module.bundlePath,
+        godotPackPath: sampleGodotPackPath(), //Bundle.module.bundlePath을 사용하고 있었음
         displayDriver: ProcessInfo.processInfo.environment["GODOT_DISPLAY_DRIVER"] ?? "embedded"
     )
     #else
-    @State var app = GodotApp(packFile: "main.pck", godotPackPath: Bundle.module.bundlePath)
+    @State var app = GodotApp(packFile: "main.pck", godotPackPath: sampleGodotPackPath())
     #endif
     @State private var runtimeEventHandlerId: UUID?
     @State private var runtimeEventCounts: [String: Int] = [:]
