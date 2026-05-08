@@ -192,7 +192,9 @@ public class GodotApp: ObservableObject {
         #endif
         let scene = normalizedScene(launchSceneOverride)
         let sourcePath = normalizedPath(launchSourceOverride) ?? path
-        guard let startupSource = validateStartupSource(sourcePath: sourcePath, scene: scene) else {
+        // App 안의 Content/Resources 안의 Project를 찾도록 변경함
+        let changeSourcePath = updateWorkingPath(sourcePath) ?? path
+        guard let startupSource = validateStartupSource(sourcePath: changeSourcePath, scene: scene) else {
             return false
         }
 
